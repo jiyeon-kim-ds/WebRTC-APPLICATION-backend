@@ -2,13 +2,13 @@ import re
 
 from rest_framework.authtoken.models import Token
 from rest_framework.response         import Response
-from rest_framework.decorators       import APIView
+from rest_framework.generics         import CreateAPIView
 from rest_framework                  import status
 
 from .models      import User
 from .serializers import UserSerializer
 
-class UserSignUpAPIView(APIView):
+class UserSignUpAPIView(CreateAPIView):
     def post(self, request):
         REGEX_PASSWORD = r'^(?=.*\w)(?=.*\d)[\w\d@$!%*?&]{8,}$'
         
