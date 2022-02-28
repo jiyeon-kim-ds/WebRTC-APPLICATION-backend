@@ -33,7 +33,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_extensions',
     'channels',
-    'corsheaders'
+    'corsheaders',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -96,13 +97,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko-kr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -142,3 +143,5 @@ CORS_ALLOW_HEADERS = (
 )
 
 APPEND_SLASH = False
+
+AUTH_USER_MODEL = 'users.User'
