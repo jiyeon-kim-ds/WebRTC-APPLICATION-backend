@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db                  import models
 
-class UserManger(BaseUserManager):
+class UserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name ,password):
         if not email:
             raise ValueError('email is required')
@@ -12,7 +12,7 @@ class UserManger(BaseUserManager):
         return user
 
 class User(AbstractBaseUser):
-    objects = UserManger()
+    objects = UserManager()
 
     email       = models.EmailField(max_length=255, unique=True)
     first_name  = models.CharField(max_length=30)
