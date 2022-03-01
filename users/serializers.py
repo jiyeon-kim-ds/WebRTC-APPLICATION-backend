@@ -1,4 +1,7 @@
-from rest_framework import serializers
+import re
+
+from rest_framework          import status
+from rest_framework          import serializers
 
 from .models import User
 
@@ -6,13 +9,20 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
-
-    def create(self, data):
+        
+    def validate(self, data):
+        REGEX_PASSWORD = r'^(?=.*\w)(?=.*\d)[\w\d@$!%*?&]{8,}$'
+            
+        if not re.fullmatch(REGEX_PASSWORD, data['password']):
+            raise serializers.ValidationError({'비밀번호 조건에 성립하지 않습니다.'})
+        return data
+            
+    def create(self, validated_data):
         user = User.objects.create_user(
-            email      = data['email'],
-            first_name = data['first_name'],
-            last_name  = data['last_name'],
-            password   = data['password']
+            email      = validated_data['email'],
+            first_name = validated_data['first_name'],
+            last_name  = validated_data['last_name'],
+            password   = validated_data['password']
         )
         user.save()
         return user
