@@ -25,3 +25,27 @@ class UserSerializer(serializers.ModelSerializer):
         )
         user.save()
         return user
+
+class UserTokenSerializer(serializers.Serializer):
+    email    = serializers.EmailField()
+    password = serializers.CharField()
+
+
+    def validate(self, data):
+        email    = data.get('email')
+        password = data.get('password')
+
+        if email and password:
+            try:
+                user = User.objects.get(email=email)
+
+                if not user.check_password(password):
+                    raise serializers.ValidationError({'사용자 확인이 불가능합니다.'})
+            except User.DoesNotExist:
+                raise serializers.ValidationError({'사용자 확인이 불가능합니다.'})
+
+        else:
+            raise serializers.ValidationError({'"email"과 "password"를 입력해주세요.'})
+        
+        data['user'] = user
+        return data
