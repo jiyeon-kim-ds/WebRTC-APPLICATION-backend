@@ -3,14 +3,14 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializers import UserSerializer, UserTokenSerializer
+from .serializers import UserSerializer, UserSignInSerializer
 
 class UserSignUpAPIView(CreateAPIView):
     serializer_class = UserSerializer
 
 class UserSignInAPIView(APIView):
     def post(self, request):
-        serializer = UserTokenSerializer(data=request.data)
+        serializer = UserSignInSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)        
         user = serializer.validated_data['user']
 
