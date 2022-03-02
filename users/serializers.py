@@ -26,7 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-class UserTokenSerializer(serializers.Serializer):
+class UserSignInSerializer(serializers.Serializer):
     email    = serializers.EmailField()
     password = serializers.CharField()
 
