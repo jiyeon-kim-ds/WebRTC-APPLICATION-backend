@@ -35,7 +35,7 @@ class UserSignInSerializer(serializers.Serializer):
         email    = data.get('email')
         password = data.get('password')
 
-        if not email and password:
+        if not email or not password:
             raise serializers.ValidationError({'"email"과 "password"를 입력해주세요.'})
         
         try:
