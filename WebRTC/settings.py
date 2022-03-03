@@ -18,7 +18,7 @@ SECRET_KEY = SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -146,3 +146,7 @@ CORS_ALLOW_HEADERS = (
 APPEND_SLASH = False
 
 AUTH_USER_MODEL = 'users.User'
+
+REST_FRAMEWORK = {
+    'NON_FIELD_ERRORS_KEY': 'message',
+}
