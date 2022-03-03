@@ -8,14 +8,13 @@ from .serializers import UserSerializer, UserSignInSerializer
 class UserSignUpAPIView(CreateAPIView):
     serializer_class = UserSerializer
 
+
 class UserSignInAPIView(APIView):
     def post(self, request):
         serializer = UserSignInSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)        
         user = serializer.validated_data['user']
 
-        token, is_created = Token.objects.get_or_create(
-            user=user
-        )
+        token, _ = Token.objects.get_or_create(user=user)
 
         return Response({'token': token.key})
