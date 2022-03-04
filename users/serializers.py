@@ -35,16 +35,13 @@ class UserSignInSerializer(serializers.Serializer):
         email    = data.get('email')
         password = data.get('password')
 
-        if not email or not password:
-            raise serializers.ValidationError({'"email"과 "password"를 입력해주세요.'})
-        
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
-            raise serializers.ValidationError({'사용자 확인이 불가능합니다.'})
+            raise serializers.ValidationError('사용자 확인이 불가능합니다.')
 
         if not user.check_password(password):
-                raise serializers.ValidationError({'사용자 확인이 불가능합니다.'})
+                raise serializers.ValidationError('사용자 확인이 불가능합니다.')
         
         data['user'] = user
         return data
