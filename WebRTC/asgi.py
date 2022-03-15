@@ -18,7 +18,6 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WebRTC.settings')
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
-
     "websocket": AuthMiddlewareStack(
         URLRouter(
             call.routing.websocket_urlpatterns

@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'channels',
     'corsheaders',
-    'users'
+    'users',
+    'call',
 ]
 
 MIDDLEWARE = [
@@ -127,7 +128,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
 
 CORS_ORIGIN_ALLOW_ALL=True
 CORS_ALLOW_CREDENTIALS = True
