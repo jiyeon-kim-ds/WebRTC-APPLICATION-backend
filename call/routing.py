@@ -1,7 +1,7 @@
-from django.urls import re_path
+from django.urls import path
 
 from .consumers import VideoCallConsumer
 
 websocket_urlpatterns = [
-    re_path(r'^ws/call/(?P<room_name>\w+)/$', VideoCallConsumer.as_asgi()),
+    path('ws/call/<str:room_name>', VideoCallConsumer.as_asgi()),
 ]
