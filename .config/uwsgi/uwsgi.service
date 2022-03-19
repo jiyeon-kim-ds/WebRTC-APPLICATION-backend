@@ -3,7 +3,7 @@ Description=uWSGI service
 After=syslog.target
  
 [Service]
-ExecStart=/home/ubuntu/WebRTC/bin/uwsgi -i /home/ubuntu/WebRTC-APPLICATION-backend/.config/uwsgi/WebRTC.ini
+ExecStart=/home/ubuntu/WebRTCenv/bin/uwsgi -i /home/ubuntu/WebRTC-APPLICATION-backend/.config/uwsgi/WebRTC.ini
  
 Restart=always
 KillSignal=SIGQUIT
