@@ -2,6 +2,7 @@ import json
 
 from channels.generic.websocket import AsyncWebsocketConsumer
 
+
 class VideoCallConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
@@ -12,10 +13,6 @@ class VideoCallConsumer(AsyncWebsocketConsumer):
         )
 
         await self.accept()
-
-        await self.send(text_data=json.dumps({
-                'message': 'hello',
-            }))
 
     async def disconnect(self, code):
         await self.channel_layer.group_discard(
@@ -33,9 +30,11 @@ class VideoCallConsumer(AsyncWebsocketConsumer):
                 self.room_name,
                 {
                     'type': 'call_received',
-                    'data': text_data_json['sdp']
+                    'data': text_data_json['offer']
                 }
                 )
+
+            await self.channel_layer.send(self.room_name, {'data': text_data_json['offer']})
                 
         if event_type == 'answer':
             await self.channel_layer.group_send(
@@ -67,8 +66,9 @@ class VideoCallConsumer(AsyncWebsocketConsumer):
     async def call_answered(self, event):
             await self.send(text_data=json.dumps(
                     {
-                        'type': 'call_answered',
-                        'data': event['data']
+                        'type' : 'call_answered',
+                        'data' : event['data'],
+                        'offer': await self.channel_layer.receive(self.room_name) 
                     }
                 )
             )
