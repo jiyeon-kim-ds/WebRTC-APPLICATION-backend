@@ -1,7 +1,7 @@
 import json
 
 from channels.generic.websocket import AsyncWebsocketConsumer
-
+from django.core.cache import cache
 
 class VideoCallConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -11,6 +11,14 @@ class VideoCallConsumer(AsyncWebsocketConsumer):
             self.room_name,
             self.channel_name
         )
+        offer = cache.get('offer', None)
+        if offer:
+            self.send(text_data=json.dumps(
+                    {
+                        'offer': offer
+                    }
+                )
+            )
 
         await self.accept()
 
@@ -34,7 +42,7 @@ class VideoCallConsumer(AsyncWebsocketConsumer):
                 }
                 )
 
-            await self.channel_layer.send(self.room_name, {'data': text_data_json['offer']})
+            cache.set('offer', text_data_json['offer'], 60 * 3 )
                 
         if event_type == 'answer':
             await self.channel_layer.group_send(
@@ -68,7 +76,6 @@ class VideoCallConsumer(AsyncWebsocketConsumer):
                     {
                         'type' : 'call_answered',
                         'data' : event['data'],
-                        'offer': await self.channel_layer.receive(self.room_name) 
                     }
                 )
             )
